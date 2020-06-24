@@ -14,10 +14,13 @@ const Wrapper = styled.div`
   flex-direction: column;
   cursor: pointer;
   span {
+    margin-top: 5px;
     font-size: 12px;
     color: rgba(0,0,0,0.8);
     text-align: center;
     font-weight: 600;
+    width: 60px;
+    line-height: 14px;
   }
 `;
 

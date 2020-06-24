@@ -1,6 +1,8 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components'
-import {RiHomeLine, RiSearchLine} from 'react-icons/ri'
+import {RiBaiduLine, RiSearchLine} from 'react-icons/ri'
+import { useLocation, useNavigate } from "@reach/router"
+import Popover from 'react-tiny-popover'
 
 const Wrapper = styled.div`
   height: 25px;
@@ -8,7 +10,6 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   background-color: rgba(0,0,0,0.1);
-  width: 100%;
   padding: 0px 10px;
 `;
 
@@ -29,6 +30,7 @@ const Item = styled.div`
   span {
     font-size: 14px;
     font-weight: 700;
+    text-transform: capitalize;
   }
   transition: all 0.3s ease;
   :hover {
@@ -37,20 +39,68 @@ const Item = styled.div`
   }
 `;
 
-const MenuBar = () => (
-  <Wrapper>
-    <Section>
+const PopoverContent = styled.div`
+  background-color: #EED4CE;
+  border: 2px solid rgba(0,0,0,0.2);
+  padding: 2px 0px;
+  border-radius: 5px;
+  li {
+    list-style-type: none;
+    font-size: 14px;
+    line-height: 26px;
+    color: rgba(0,0,0,0.7);
+    margin-bottom: 0px;
+    padding: 0px 10px;
+    font-weight: 600;
+    cursor: pointer;
+    :hover {
+      background-color: rgba(0,0,0,0.3);
+      color: #FFFFFF;
+    }
+  }
+  hr {
+    background-color: rgba(0,0,0,0.2);
+    height: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+`;
+
+const MenuBar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  
+  return (
+    <Wrapper>
+      <Section>
+        <Popover
+          isOpen={isPopoverOpen}
+          position='bottom'
+          padding={2}
+          onClickOutside={() => setIsPopoverOpen(false)}
+          content={<PopoverContent>
+            <li>About This Paw</li>
+            <hr />
+            <li>System References</li>
+            <li>App Store...</li>
+            <hr />
+            <li>Shut Down...</li>
+          </PopoverContent>}
+        >
+          <Item onClick={() => setIsPopoverOpen(!isPopoverOpen)}>
+            <RiBaiduLine />
+          </Item>
+        </Popover>
+        {location.pathname.split('/')?.[1] && <Item>
+          <span>{location.pathname.split('/')?.[1]}</span>
+        </Item>}
+      </Section>
       <Item>
-        <RiHomeLine />
+        <RiSearchLine />
       </Item>
-      <Item>
-        <span>qckhnh.com</span>
-      </Item>
-    </Section>
-    <Item>
-      <RiSearchLine />
-    </Item>
-  </Wrapper>
-)
+    </Wrapper>
+  )
+}
 
 export default MenuBar

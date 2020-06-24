@@ -14,7 +14,16 @@ const Layout = ({ children }) => {
   return (
     <>
       <MenuBar />
-      {apps.map(app => <AppIcon key={app.url} label={app.label} defaultPosition={app.position} url={app.url} />)}
+      {apps.map(app => (
+        <AppIcon
+          key={app.url}
+          label={app.label}
+          defaultPosition={app.position}
+          url={app.url}
+          icon={app.icon}
+          iconActive={app.iconActive}
+        />
+      ))}
       <main>{children}</main>
     </>
   )
