@@ -44,7 +44,7 @@ const Container = styled.div`
   }
 `;
 
-const AppIcon = ({label, icon, iconActive, defaultPosition, url}) => {
+const AppIcon = ({label, icon, iconActive, position, url}) => {
   const [dragging, setDragging] = useState(false);
   const match = useMatch(url);
   const navigate = useNavigate();
@@ -65,7 +65,7 @@ const AppIcon = ({label, icon, iconActive, defaultPosition, url}) => {
 
   return (
     <Draggable
-      defaultPosition={defaultPosition || {x: 50, y: 50}}
+      position={position}
       onDrag={handleDrag}
       onStop={handleStop}
     >

@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
-import {RiBaiduLine, RiSearchLine} from 'react-icons/ri'
+import {RiBearSmileLine, RiSearchLine} from 'react-icons/ri'
 import { useLocation, useNavigate } from "@reach/router"
 import Popover from 'react-tiny-popover'
 
@@ -70,7 +70,13 @@ const MenuBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [isAppPopoverOpen, setIsAppPopoverOpen] = useState(false);
   
+  function handleQuitApp() {
+    setIsAppPopoverOpen(false);
+    navigate('../', {replace: true});
+  }
+
   return (
     <Wrapper>
       <Section>
@@ -79,8 +85,9 @@ const MenuBar = () => {
           position='bottom'
           padding={2}
           onClickOutside={() => setIsPopoverOpen(false)}
+          align='start'
           content={<PopoverContent>
-            <li>About This Paw</li>
+            <li>About This Site</li>
             <hr />
             <li>System References</li>
             <li>App Store...</li>
@@ -89,12 +96,25 @@ const MenuBar = () => {
           </PopoverContent>}
         >
           <Item onClick={() => setIsPopoverOpen(!isPopoverOpen)}>
-            <RiBaiduLine />
+            <RiBearSmileLine />
           </Item>
         </Popover>
-        {location.pathname.split('/')?.[1] && <Item>
-          <span>{location.pathname.split('/')?.[1]}</span>
-        </Item>}
+        {location.pathname.split('/')?.[1] && (
+          <Popover
+            isOpen={isAppPopoverOpen}
+            position='bottom'
+            padding={2}
+            onClickOutside={() => setIsAppPopoverOpen(false)}
+            align='start'
+            content={<PopoverContent>
+              <li onClick={handleQuitApp}>Quit {location.pathname.split('/')?.[1]}</li>
+            </PopoverContent>}
+          >
+            <Item onClick={() => setIsAppPopoverOpen(!isAppPopoverOpen)}>
+              <span>{location.pathname.split('/')?.[1]}</span>
+            </Item>
+          </Popover>
+        )}
       </Section>
       <Item>
         <RiSearchLine />
